@@ -1,0 +1,20 @@
+# render.yaml — Render Infrastructure as Code
+# https://docs.render.com/infrastructure-as-code
+services:
+  - type: web
+    name: hero-housing-fintech
+    runtime: python
+    plan: free
+    buildCommand: bash bin/render-build.sh
+    startCommand: uvicorn valuegraph.api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./demo.db
+      - key: JWT_SECRET
+        generateValue: true   # Render generates a random 64-char secret automatically
+      - key: APP_ENV
+        value: prod
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: PYTHON_VERSION
+        value: "3.13.9"
