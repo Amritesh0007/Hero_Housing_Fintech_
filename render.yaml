@@ -18,3 +18,10 @@ services:
         value: "*"
       - key: PYTHON_VERSION
         value: "3.13.9"
+      # Google Maps JavaScript API browser key (restricted by HTTP referrer in Google Cloud Console)
+      - key: MAPS_API_KEY
+        value: "AIzaSyA4FPgvXX30oY4E4zKJJC690fZv8N6bSZI"
+      # Google Sign-In OAuth client ID — add your Render URL to Authorised JavaScript origins in Google Cloud
+      - key: GOOGLE_CLIENT_ID
+        value: "871367729058-hsqnf4pj30r7b25n274dd3kml292fcgn.apps.googleusercontent.com"
+

@@ -12,7 +12,7 @@ if [ -f data/raw/house_prices.csv ]; then
   python -m valuegraph.cli train --csv data/raw/house_prices.csv
 else
   echo "No real data found — generating synthetic training data"
-  python -m valuegraph.cli synthetic --rows 8000
+  python -m valuegraph.cli synthetic --rows 20000
   python -m valuegraph.cli train --csv data/sample/synthetic_train.csv --iterations 1000
 fi
 

@@ -229,13 +229,253 @@ def clean(raw: pd.DataFrame, min_city_rows: int = 300) -> tuple[pd.DataFrame, di
 
 # --- Synthetic sample ---------------------------------------------------------------------------
 # For tests and offline demos ONLY, in the same raw schema. Never report metrics on this as accuracy.
-_CITIES = {"hyderabad": 7000, "bangalore": 8000, "mumbai": 22000, "chennai": 7500, "pune": 8500, "new-delhi": 11000}
+# Real Indian cities + median ₹/sqft (approximate asking prices) so the demo looks realistic.
+_CITIES = {
+    "Bangalore": 8000, "Mumbai": 22000, "Chennai": 7500, "Hyderabad": 7000, "Pune": 8500,
+    "New Delhi": 11000, "Kolkata": 5500, "Gurgaon": 9500, "Noida": 6000, "Greater Noida": 4500,
+    "Ghaziabad": 4000, "Faridabad": 4500, "Navi Mumbai": 9000, "Thane": 8500, "Lucknow": 4000,
+    "Jaipur": 4500, "Ahmedabad": 5500, "Chandigarh": 7000, "Mohali": 5500, "Kochi": 6500,
+    "Coimbatore": 5000, "Goa": 9000, "Dehradun": 5500, "Mangalore": 5500, "Patna": 3500,
+    "Raipur": 3500, "Nagpur": 4500, "Vizag": 4500, "Indore": 4000, "Bhopal": 3800,
+    "Guwahati": 4000, "Kanpur": 3500, "Jamshedpur": 4000, "Kalyan": 6500, "Palghar": 4500,
+}
+
+# Real locality names per city (representative neighbourhoods from the Indian housing market).
+_LOCALITIES: dict[str, list[str]] = {
+    "Bangalore": [
+        "Whitefield", "Sarjapur Road", "Hebbal", "Kanakapura Road", "Yelahanka",
+        "Electronic City", "Marathahalli", "Bannerghatta Road", "Hennur", "Devanahalli",
+        "Thanisandra", "Kr Puram", "Jp Nagar", "Hsr Layout", "Bellandur",
+        "Rajaji Nagar", "Koramangala", "Btm Layout", "Jayanagar", "Banashankari",
+    ],
+    "Mumbai": [
+        "Andheri West", "Borivali East", "Goregaon West", "Kandivali East", "Malad West",
+        "Thane West", "Mulund West", "Bandra West", "Powai", "Dahisar East",
+        "Vikhroli East", "Chembur", "Jogeshwari West", "Ghatkopar East", "Worli",
+        "Lower Parel", "Juhu", "Versova", "Santacruz West", "Vile Parle East",
+    ],
+    "Chennai": [
+        "Velachery", "Porur", "Tambaram", "Pallavaram", "Chromepet",
+        "Sholinganallur", "Perambur", "Medavakkam", "Guduvanchery", "Kelambakkam",
+        "Anna Nagar", "T Nagar", "Adyar", "Mylapore", "Thiruvanmiyur",
+        "Kodambakkam", "Perungudi", "Madipakkam", "Pallikaranai", "Nanganallur",
+    ],
+    "Hyderabad": [
+        "Gachibowli", "Kondapur", "Kukatpally", "Miyapur", "Bachupally",
+        "Kompally", "Kokapet", "Manikonda", "Narsingi", "Tellapur",
+        "Uppal", "Lb Nagar", "Dilsukhnagar", "Begumpet", "Secunderabad",
+        "Madhapur", "Hitech City", "Banjara Hills", "Jubilee Hills", "Ameerpet",
+    ],
+    "Pune": [
+        "Hinjewadi", "Wakad", "Baner", "Kharadi", "Wagholi",
+        "Hadapsar", "Undri", "Punawale", "Tathawade", "Ravet",
+        "Bavdhan", "Kothrud", "Aundh", "Viman Nagar", "Koregaon Park",
+        "Pimpri", "Chinchwad", "Dhanori", "Nibm Road", "Kondhwa",
+    ],
+    "New Delhi": [
+        "Dwarka", "Rohini", "Janakpuri", "Saket", "Vasant Kunj",
+        "Greater Kailash", "Pitampura", "Paschim Vihar", "Lajpat Nagar", "Chattarpur",
+        "Nehru Place", "Hauz Khas", "Malviya Nagar", "Defence Colony", "Karol Bagh",
+        "Rajouri Garden", "Mayur Vihar", "Preet Vihar", "Vikaspuri", "Uttam Nagar",
+    ],
+    "Kolkata": [
+        "Rajarhat", "Garia", "Tollygunge", "Behala", "Dum Dum",
+        "Salt Lake", "New Town", "Jadavpur", "Lake Town", "Ballygunge",
+        "Howrah", "Baranagar", "Baguiati", "Kaikhali", "Narendrapur",
+        "Em Bypass", "Gariahat", "Kasba", "Phool Bagan", "Bansdroni",
+    ],
+    "Gurgaon": [
+        "Sector 49", "Sector 56", "Sector 82", "Sector 37", "Sohna Road",
+        "Golf Course Road", "Sector 84", "Sector 67", "Sector 68", "Dwarka Expressway",
+        "Sector 102", "Sector 92", "Sector 48", "Sector 62", "Sector 70",
+        "Mg Road", "Sector 54", "Sector 43", "Udyog Vihar", "Dlf Phase",
+    ],
+    "Noida": [
+        "Sector 150", "Sector 137", "Sector 75", "Sector 78", "Sector 44",
+        "Sector 62", "Sector 50", "Sector 76", "Sector 128", "Sector 143",
+        "Sector 70", "Sector 100", "Sector 93", "Sector 110", "Sector 121",
+        "Sector 37", "Sector 15", "Sector 22", "Sector 18", "Sector 63",
+    ],
+    "Greater Noida": [
+        "Sector Alpha 1", "Sector Beta 1", "Sector Omega 1", "Pari Chowk", "Knowledge Park",
+        "Sector Zeta 1", "Sector Mu", "Sector Chi", "Sector Phi", "Sector Eta",
+        "Yamuna Expressway", "Tech Zone", "Greater Noida West", "Sector 1", "Sector 2",
+        "Noida Extension", "Gaur City", "Sector 4", "Sector 12", "Sector 16",
+    ],
+    "Ghaziabad": [
+        "Indirapuram", "Vaishali", "Raj Nagar Extension", "Crossings Republik", "Vasundhara",
+        "Sahibabad", "Loni", "Siddharth Vihar", "Mohan Nagar", "Kaushambi",
+        "Niti Khand", "Ahinsa Khand", "Pratap Vihar", "Govindpuram", "Ramprastha",
+        "Dundahera", "Wave City", "Nhpc Colony", "Bhopura", "Nehru Nagar",
+    ],
+    "Faridabad": [
+        "Sector 86", "Sector 88", "Sector 75", "Sector 37", "Neharpar",
+        "Sector 21", "Ballabgarh", "Sector 81", "Sector 77", "Surajkund",
+        "Sector 15", "Sector 16", "Nit", "Sector 46", "Old Faridabad",
+        "Badkhal", "Sector 62", "Greenfields", "Sector 84", "Sector 79",
+    ],
+    "Navi Mumbai": [
+        "Kharghar", "Panvel", "Vashi", "Airoli", "Ghansoli",
+        "Nerul", "Ulwe", "Belapur", "Kopar Khairane", "Taloja",
+        "Sanpada", "Seawoods", "Kamothe", "Turbhe", "Juinagar",
+        "Palm Beach Road", "Dronagiri", "Kalamboli", "New Panvel", "Khandeshwar",
+    ],
+    "Thane": [
+        "Ghodbunder Road", "Pokhran Road", "Kolshet Road", "Majiwada", "Wagle Estate",
+        "Manpada", "Balkum", "Vartak Nagar", "Naupada", "Panchpakhadi",
+        "Brahmand", "Hiranandani Estate", "Vasant Vihar", "Kopri", "Teen Hath Naka",
+        "Diva", "Bhiwandi", "Mumbra", "Kalyan West", "Dombivli East",
+    ],
+    "Lucknow": [
+        "Gomti Nagar", "Aliganj", "Indira Nagar", "Hazratganj", "Charbagh",
+        "Jankipuram", "Ashiyana", "Chinhat", "Sushant Golf City", "Shaheed Path",
+        "Vikas Nagar", "Mahanagar", "Alambagh", "Rajajipuram", "Faizabad Road",
+        "Kursi Road", "Amar Shaheed Path", "Vrindavan Colony", "Kanpur Road", "Sultanpur Road",
+    ],
+    "Jaipur": [
+        "Mansarovar", "Jagatpura", "Vaishali Nagar", "Malviya Nagar", "Pratap Nagar",
+        "Ajmer Road", "Tonk Road", "Sirsi Road", "Sodala", "C Scheme",
+        "Raja Park", "Jhotwara", "Sanganer", "Vidhyadhar Nagar", "Lal Kothi",
+        "Tilak Nagar", "Bani Park", "Durgapura", "Bapu Nagar", "Shyam Nagar",
+    ],
+    "Ahmedabad": [
+        "Bopal", "South Bopal", "Gota", "Prahlad Nagar", "Satellite",
+        "Sg Highway", "Thaltej", "Vastrapur", "Ambawadi", "Navrangpura",
+        "Chandkheda", "Motera", "Maninagar", "Naranpura", "Bodakdev",
+        "Sarkhej", "Gurukul", "Paldi", "Ellis Bridge", "Shilaj",
+    ],
+    "Chandigarh": [
+        "Sector 17", "Sector 22", "Sector 35", "Sector 44", "Sector 8",
+        "Sector 15", "Sector 21", "Sector 34", "Sector 38", "Sector 43",
+        "Sector 48", "Sector 52", "Sector 63", "Manimajra", "Zirakpur",
+        "Sector 20", "Sector 32", "Sector 40", "Sector 47", "Industrial Area",
+    ],
+    "Mohali": [
+        "Sector 66", "Sector 70", "Sector 71", "Sector 105", "Sector 117",
+        "Sector 68", "Sector 77", "Sector 82", "Sector 88", "Sector 91",
+        "Kharar", "Aerocity", "Sector 74", "Sector 79", "Sector 85",
+        "Sector 115", "Sector 125", "Sector 127", "It City", "Sector 63",
+    ],
+    "Kochi": [
+        "Kakkanad", "Edappally", "Aluva", "Thrippunithura", "Vytilla",
+        "Maradu", "Kaloor", "Kadavanthra", "Palarivattom", "Vyttila",
+        "Fort Kochi", "Ernakulam", "Panangad", "Tripunithura", "Kalamassery",
+        "Manjeri", "Cheranalloor", "Thevara", "Thammanam", "Ravipuram",
+    ],
+    "Coimbatore": [
+        "Saravanampatti", "Singanallur", "Ganapathy", "Peelamedu", "Vadavalli",
+        "Thudiyalur", "Kuniyamuthur", "Rs Puram", "Kovaipudur", "Kalapatti",
+        "Sulur", "Sundarapuram", "Tatabad", "Gandhipuram", "Ondipudur",
+        "Vilankurichi", "Perur", "Podanur", "Ukkadam", "Hopes College",
+    ],
+    "Goa": [
+        "Panaji", "Margao", "Mapusa", "Vasco Da Gama", "Ponda",
+        "Calangute", "Candolim", "Anjuna", "Vagator", "Baga",
+        "Porvorim", "Dona Paula", "Bambolim", "Alto Porvorim", "Taleigao",
+        "Siolim", "Assagao", "Aldona", "Bicholim", "Sanquelim",
+    ],
+    "Dehradun": [
+        "Rajpur Road", "Sahastradhara Road", "Mussoorie Road", "Prem Nagar", "Clement Town",
+        "Jakhan", "Balliwala", "Dalanwala", "Aabadi Road", "Nehru Colony",
+        "Race Course", "Turner Road", "Karanpur", "Kedarpur", "Kanwali",
+        "Doon Vihar", "Indira Nagar", "Hathibarkala", "Raipur", "Doiwala",
+    ],
+    "Mangalore": [
+        "Bejai", "Kadri", "Falnir", "Derebail", "Kottara",
+        "Kankanady", "Urwa", "Bendoor", "Mannagudda", "Balmatta",
+        "Jeppu", "Pumpwell", "Kavoor", "Kulshekar", "Padil",
+        "Bikarnakatte", "Mallikatte", "Hampankatta", "Attavar", "Pandeshwar",
+    ],
+    "Patna": [
+        "Boring Road", "Kankarbagh", "Patliputra Colony", "Rajendra Nagar", "Bailey Road",
+        "Danapur", "Phulwari Sharif", "Anisabad", "Jakkanpur", "Saguna More",
+        "Ashiana Nagar", "Khajpura", "Naubatpur", "Mahendru", "Gardanibagh",
+        "Kumhrar", "Shastri Nagar", "Budh Marg", "Rukanpura", "Sampatchak",
+    ],
+    "Raipur": [
+        "Shankar Nagar", "Devendra Nagar", "Telibandha", "Pandri", "Tatibandh",
+        "Amanaka", "Vidhan Sabha Road", "Mowa", "Bhatagaon", "Khamtarai",
+        "Sunder Nagar", "Gudhiyari", "Hirapur", "Daldal Seoni", "Amlidih",
+        "Boriyakhurd", "Birgaon", "Ring Road", "Vip Road", "Saddu",
+    ],
+    "Nagpur": [
+        "Dharampeth", "Sitabuldi", "Wardha Road", "Hingna", "Khamla",
+        "Manish Nagar", "Trimurti Nagar", "Pratap Nagar", "Manewada", "Besa",
+        "Ramdaspeth", "Laxmi Nagar", "Seminary Hills", "Civil Lines", "Sadar",
+        "Amravati Road", "Godhni", "Nandanvan", "Wadi", "Koradi Road",
+    ],
+    "Vizag": [
+        "Madhurawada", "Gajuwaka", "Seethammadhara", "Pendurthi", "Rushikonda",
+        "Mvp Colony", "Nad Junction", "Yendada", "Pm Palem", "Kommadi",
+        "Beach Road", "Dwaraka Nagar", "Lawsons Bay Colony", "Siripuram", "Akkayyapalem",
+        "Madhavadhara", "Asilmetta", "Gopalapatnam", "Chinagadili", "Anandapuram",
+    ],
+    "Indore": [
+        "Vijay Nagar", "Nipania", "Super Corridor", "Ab Road", "Bhawarkua",
+        "Rau", "Bypass Road", "Mahalaxmi Nagar", "Palasia", "New Palasia",
+        "Sapna Sangeeta Road", "Rajendra Nagar", "Sudama Nagar", "Bicholi Mardana", "Scheme No 78",
+        "Scheme No 54", "Aerodrome Road", "Ring Road", "Mhow", "Khandwa Road",
+    ],
+    "Bhopal": [
+        "Mp Nagar", "Kolar Road", "Hoshangabad Road", "Arera Colony", "Shahpura",
+        "Ayodhya Nagar", "Ashoka Garden", "Bag Mugalia", "Sehore Road", "Misrod",
+        "Raisen Road", "Mandideep", "Piplani", "Tt Nagar", "Habibganj",
+        "Govindpura", "Bawadia Kalan", "Bairagarh", "Berasia Road", "Saket Nagar",
+    ],
+    "Guwahati": [
+        "Zoo Road", "Ganeshguri", "Dispur", "Beltola", "Hatigaon",
+        "Kahilipara", "Six Mile", "Lokhra", "Basistha", "Panbazar",
+        "Garchuk", "Jalukbari", "Maligaon", "Chandmari", "Noonmati",
+        "Paltan Bazar", "Bhangagarh", "Ulubari", "Fancy Bazar", "Rehabari",
+    ],
+    "Kanpur": [
+        "Swaroop Nagar", "Kakadeo", "Kidwai Nagar", "Kalyanpur", "Panki",
+        "Shyam Nagar", "Harsh Nagar", "Govind Nagar", "Arya Nagar", "Civil Lines",
+        "Jajmau", "Rawatpur", "Barra", "Kakadev", "Lal Bangla",
+        "Tilak Nagar", "Transport Nagar", "Avas Vikas", "Naubasta", "Fazalganj",
+    ],
+    "Jamshedpur": [
+        "Bistupur", "Sakchi", "Sonari", "Kadma", "Telco",
+        "Sidhgora", "Golmuri", "Baridih", "Mango", "Adityapur",
+        "Agrico", "Bhalubasa", "Birsanagar", "Dimna", "Marine Drive",
+        "Pardih", "Sitaramdera", "Jugsalai", "Northern Town", "Circuit House Area",
+    ],
+    "Kalyan": [
+        "Kalyan West", "Kalyan East", "Dombivli West", "Dombivli East", "Ambernath",
+        "Badlapur West", "Badlapur East", "Titwala", "Ulhasnagar", "Shahad",
+        "Mohone", "Katai", "Vitthalwadi", "Govindwadi", "Bail Bazar",
+        "Birla College Road", "Gandhari", "Khadakpada", "Kolsewadi", "Netivali",
+    ],
+    "Palghar": [
+        "Virar West", "Virar East", "Vasai West", "Vasai East", "Nalasopara West",
+        "Nalasopara East", "Boisar", "Manor", "Palghar Town", "Kelwa Road",
+        "Naigaon West", "Naigaon East", "Navghar", "Achole", "Sativali",
+        "Evershine City", "Global City", "Nallasopara", "Tungareshwar", "Arnala",
+    ],
+}
+
+# Fallback localities for cities not explicitly listed above.
+_DEFAULT_LOCALITIES = [
+    "Civil Lines", "Mg Road", "Station Road", "Model Town", "Nehru Nagar",
+    "Gandhi Nagar", "Shastri Nagar", "Rajendra Nagar", "Vikas Nagar", "Indira Nagar",
+    "Sadar Bazar", "Lal Bagh", "Cantonment", "University Road", "Ring Road",
+    "Bypass Road", "Industrial Area", "Old City", "New Colony", "Adarsh Nagar",
+]
 
 
 def make_synthetic(n: int = 6000, seed: int = 0) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
-    city = rng.choice(list(_CITIES), size=n)
-    loc_idx = rng.integers(0, 25, n)
+    cities = list(_CITIES.keys())
+    city = rng.choice(cities, size=n)
+    # Pick a real locality for each city
+    loc_names = []
+    loc_indices = []
+    for c in city:
+        locs = _LOCALITIES.get(c, _DEFAULT_LOCALITIES)
+        idx = rng.integers(0, len(locs))
+        loc_names.append(locs[idx])
+        loc_indices.append(idx)
+    loc_idx = np.array(loc_indices)
     loc_effect = np.sin(loc_idx * 1.7) * 0.35  # each locality has its own price level
     bhk = rng.choice([1, 2, 3, 4, 5], size=n, p=[0.15, 0.4, 0.3, 0.1, 0.05])
     sbu = np.round(np.exp(rng.normal(np.log(450 + 400 * bhk), 0.18)))
@@ -254,15 +494,16 @@ def make_synthetic(n: int = 6000, seed: int = 0) -> pd.DataFrame:
     )
     price = np.exp(log_rate) * sbu
     amount = [f"{p / 1e7:.2f} Cr" if p >= 1e7 else f"{p / 1e5:.1f} Lac" for p in price]
-    locs = [f"Sector {i + 1}" for i in loc_idx]
+    # Use city names with hyphens for the location column (matches raw data format)
+    location_col = [c.lower().replace(" ", "-") for c in city]
     return pd.DataFrame(
         {
             "Title": [
                 f"{b} BHK Ready to Occupy Flat for sale in Demo Residency {lc}"
-                for b, lc in zip(bhk, locs, strict=False)
+                for b, lc in zip(bhk, loc_names, strict=False)
             ],
             "Amount(in rupees)": amount,
-            "location": city,
+            "location": location_col,
             "Carpet Area": np.where(is_carpet, [f"{a / 1.35:.0f} sqft" for a in sbu], None),
             "Super Area": np.where(~is_carpet, [f"{a:.0f} sqft" for a in sbu], None),
             "Floor": [("Ground" if f == 0 else str(f)) + f" out of {t}" for f, t in zip(floor, total, strict=False)],
