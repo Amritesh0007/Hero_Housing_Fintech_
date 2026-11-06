@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+*.db
+models/*.joblib
+data/raw/
+data/processed/
+.pytest_cache/
+.ruff_cache/
+catboost_info/

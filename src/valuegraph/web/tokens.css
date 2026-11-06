@@ -1,0 +1,60 @@
+/* KSHETRA design tokens — the single source of colour, type, space and motion.
+   Used by the public site (/site/site.css) and the signed-in app (/app/app.css). Change values here, not there. */
+:root {
+  /* palette */
+  --forest: #0B4B3F;        /* primary actions, navigation, key accents */
+  --forest-deep: #073329;   /* hover/pressed forest, dark panels */
+  --ivory: #F8F6F0;         /* page background */
+  --sage: #E5EAE1;          /* quiet panels, active nav pill */
+  --beige: #EEE8DE;         /* alternate section background */
+  --blush: #EBC8C0;         /* sparing highlight: one word, one marker */
+  --bronze: #A0640A;        /* the KSHETRA logo colour: brand marks only, not body text */
+  --charcoal: #242724;      /* body text */
+  --white: #FFFFFF;
+
+  /* derived neutrals (from charcoal on ivory) */
+  --ink: var(--charcoal);
+  --ink-2: #5B615A;         /* secondary text, ≥4.5:1 on ivory */
+  --line: #D9D6CC;          /* hairlines and field borders */
+
+  /* semantic */
+  --up: #2F6B4F;
+  --down: #A2412F;
+  --g-high: #2F6B4F;   --g-high-bg: #E1ECE3;
+  --g-medium: #7A5A12; --g-medium-bg: #F3E9D2;
+  --g-low: #A2412F;    --g-low-bg: #F6E0DA;
+  --g-none: #5B615A;   --g-none-bg: #ECEAE4;
+
+  /* price scale for maps and charts: sage (lower ₹/sqft) → forest (higher) */
+  --rate-lo: #D5DFD2;
+  --rate-hi: #0B4B3F;
+
+  /* type */
+  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: "Manrope", system-ui, -apple-system, sans-serif;
+  --t-hero: clamp(48px, 6.4vw, 96px);
+  --t-h2: clamp(36px, 4.2vw, 60px);
+  --t-h3: 28px;
+  --t-lead: 19px;
+  --t-body: 16px;
+  --t-small: 13px;
+  --t-label: 11.5px;        /* uppercase labels, tracked */
+
+  /* space (8-pt) */
+  --s-1: 8px; --s-2: 16px; --s-3: 24px; --s-4: 32px; --s-6: 48px; --s-8: 64px; --s-12: 96px; --s-16: 128px;
+  --gutter: clamp(16px, 5vw, 72px);
+
+  /* shape */
+  --r-pill: 999px;
+  --r-sm: 6px;
+  --r-lg: 14px;
+
+  /* motion */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --t-fast: .18s;
+  --t-slow: .9s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0s; --t-slow: 0s; }
+}

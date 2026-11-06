@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KSHETRA — Property Intelligence</title>
+<meta name="description" content="Every land has a story. Every property has a value. Estimate what an Indian apartment is worth, with a price range, the factors behind it and the comparable listings it was built from.">
+<link rel="icon" type="image/png" sizes="32x32" href="/site/img/icon-32.png">
+<link rel="apple-touch-icon" href="/site/img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/app/tokens.css">
+<link rel="stylesheet" href="/site/site.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="nav" id="top">
+  <a class="brand" href="#top" aria-label="KSHETRA home">
+    <img class="brand-mark" src="/site/img/kshetra-logo.webp" alt="" width="72" height="54">
+    <span class="brand-text"><span class="brand-name">KSHETRA</span><span class="brand-sub" data-i18n="brand.sub">Property Intelligence</span></span>
+  </a>
+  <nav aria-label="Primary">
+    <ul class="nav-links">
+      <li><a href="#platform" data-i18n="nav.platform">Our Platform</a></li>
+      <li><a href="#how" data-i18n="nav.how">How It Works</a></li>
+      <li><a href="#insights" data-i18n="nav.insights">Valuation Insights</a></li>
+      <li><a href="#about" data-i18n="nav.about">About Us</a></li>
+    </ul>
+  </nav>
+  <div class="nav-end">
+    <label class="lang" title="Language">
+      <svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c2 2.2 2 10.8 0 13M8 1.5c-2 2.2-2 10.8 0 13"/></svg>
+      <span class="sr-only" data-i18n="lang.label">Language</span>
+      <select id="lang-select"></select>
+    </label>
+    <a class="nav-signin" href="/app/" data-i18n="nav.signin">Lender sign-in</a>
+    <a class="btn btn-forest" href="#value"><span data-i18n="nav.cta">Get valuation</span> <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu" data-i18n-aria="nav.menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="#platform" data-i18n="nav.platform">Our Platform</a><a href="#how" data-i18n="nav.how">How It Works</a>
+    <a href="#insights" data-i18n="nav.insights">Valuation Insights</a><a href="#about" data-i18n="nav.about">About Us</a>
+    <a href="/app/" data-i18n="nav.signin">Lender sign-in</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero: a survey plan on the left, the live market on the right -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-left">
+      <svg class="plat" viewBox="0 0 600 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g class="plat-contours"></g>
+        <g class="plat-plots"></g>
+      </svg>
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">KSHETRA · Property intelligence for India</p>
+        <h1 id="hero-title"><span data-i18n="hero.title.a">Know your</span> <em data-i18n="hero.title.b">property’s worth.</em></h1>
+        <p class="hero-sub" data-i18n="hero.sub">Intelligent property valuations powered by real estate data, market insights, and explainable AI.</p>
+        <a class="link-cta" href="#value"><span data-i18n="hero.cta">Explore valuation</span> <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      </div>
+    </div>
+    <figure class="hero-right">
+      <div class="map hero-map" id="hero-map" role="img" aria-label="Map of localities coloured by median asking price per square foot" data-i18n-aria="map.aria"></div>
+      <figcaption class="map-caption" id="hero-caption">
+        <span class="cap-city" data-i18n="js.loadingMarket">Loading the market…</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- Introduction -->
+  <section class="intro" id="platform" aria-labelledby="intro-title">
+    <div class="wrap intro-grid">
+      <h2 id="intro-title" class="reveal" data-i18n="intro.title">Real estate decisions deserve better intelligence.</h2>
+      <div class="intro-body reveal">
+        <p class="lead" data-i18n="intro.p1">KSHETRA reads a flat the way a valuer does. It looks at what similar homes nearby are asking, what the same building is asking, and how size, floor and furnishing move the price. Then it tells you what it found.</p>
+        <p data-i18n="intro.p2">Every estimate comes with a range, the factors that pushed it up or down, and the listings it was built from. If the evidence is thin, it says so instead of guessing.</p>
+        <dl class="facts" id="facts">
+          <div><dt data-i18n="facts.error">Median error</dt><dd data-fact="median_error">—</dd></div>
+          <div><dt data-i18n="facts.within">Estimates within ±10%</dt><dd data-fact="within_10pct">—</dd></div>
+          <div><dt data-i18n="facts.cities">Cities covered</dt><dd data-fact="cities">—</dd></div>
+        </dl>
+        <p class="fine" data-i18n="intro.fine">Measured on listings the model never saw during training. Prices are asking prices, not completed sales.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expertise -->
+  <section class="expertise" aria-labelledby="exp-title">
+    <div class="wrap">
+      <h2 id="exp-title" class="reveal" data-i18n="exp.title">What KSHETRA does</h2>
+      <div class="exp-grid">
+        <article class="exp reveal">
+          <svg class="exp-icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M8 40V20l16-12 16 12v20M8 40h32M19 40V28h10v12"/></svg>
+          <h3 data-i18n="exp.1.title">AI property valuation</h3>
+          <p data-i18n="exp.1.body">A price estimate from a model trained on tens of thousands of Indian listings, checked against comparable homes before it reaches you.</p>
+        </article>
+        <article class="exp reveal">
+          <svg class="exp-icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M6 40h36M10 34l9-10 7 6 12-14"/><circle cx="38" cy="16" r="2.5"/></svg>
+          <h3 data-i18n="exp.2.title">Market intelligence</h3>
+          <p data-i18n="exp.2.body">See how a locality’s asking price per square foot compares with the rest of the city, and where your flat sits within it.</p>
+        </article>
+        <article class="exp reveal">
+          <svg class="exp-icon" aria-hidden="true" viewBox="0 0 48 48"><path d="M10 12h28M10 22h20M10 32h24M34 28l4 4 6-8"/></svg>
+          <h3 data-i18n="exp.3.title">Explainable insights</h3>
+          <p data-i18n="exp.3.body">Each estimate breaks down into the factors behind it, in rupees, so you can see why the number is what it is.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title" class="reveal" data-i18n="how.title">How it works</h2>
+      <ol class="steps">
+        <li class="reveal"><span class="step-n">01</span><div><h3 data-i18n="how.1.title">Enter property details</h3><p data-i18n="how.1.body">City, locality, size and bedrooms are enough. Building name, floor and furnishing sharpen the estimate.</p></div></li>
+        <li class="reveal"><span class="step-n">02</span><div><h3 data-i18n="how.2.title">AI analyses market data</h3><p data-i18n="how.2.body">The model compares your flat with nearby listings and near-identical flats in the same building.</p></div></li>
+        <li class="reveal"><span class="step-n">03</span><div><h3 data-i18n="how.3.title">Receive your valuation report</h3><p data-i18n="how.3.body">A value, a likely range, a confidence grade, the factors behind it and the comparables used.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Interactive valuation -->
+  <section class="value" id="value" aria-labelledby="value-title">
+    <div class="wrap value-grid">
+      <div class="value-intro">
+        <h2 id="value-title" data-i18n="value.title">Estimate a property’s value</h2>
+        <p class="lead" data-i18n="value.lead">Apartments in 45 Indian cities. Nothing you enter here is stored.</p>
+      </div>
+      <form class="vform" id="vform" novalidate>
+        <div class="row two">
+          <label><span data-i18n="f.city">City</span><select name="city" required></select></label>
+          <label><span data-i18n="f.locality">Locality</span><input name="locality" list="localities" required autocomplete="off" placeholder="Start typing a locality" data-i18n-placeholder="f.locality.ph"></label>
+          <datalist id="localities"></datalist>
+        </div>
+        <div class="row three">
+          <label><span data-i18n="f.type">Property type</span><select name="property_type"><option value="apartment" data-i18n="f.type.apartment">Apartment</option></select></label>
+          <label><span data-i18n="f.area">Area (sq ft)</span><input name="area_sqft" type="number" inputmode="numeric" min="101" max="20000" required placeholder="1,100"></label>
+          <label><span data-i18n="f.areaType">Measured as</span><select name="area_type">
+            <option value="carpet" data-i18n="f.areaType.carpet">Carpet area</option><option value="built_up" data-i18n="f.areaType.built_up">Built-up area</option><option value="super_built_up" data-i18n="f.areaType.super_built_up">Super built-up area</option>
+          </select></label>
+        </div>
+        <div class="row three">
+          <label><span data-i18n="f.bhk">Bedrooms</span><select name="bhk"><option value="1">1 BHK</option><option value="2" selected>2 BHK</option><option value="3">3 BHK</option><option value="4">4 BHK</option><option value="5">5+ BHK</option></select></label>
+          <label><span data-i18n="f.status">Property status</span><select name="transaction"><option value="Resale" data-i18n="f.status.resale">Resale</option><option value="New Property" data-i18n="f.status.new">New, never lived in</option></select></label>
+          <label><span><span data-i18n="f.society">Building or project</span> <span class="opt" data-i18n="f.optional">optional</span></span><input name="society" maxlength="120" placeholder="e.g. Prestige Lakeside" data-i18n-placeholder="f.society.ph"></label>
+        </div>
+        <details class="more">
+          <summary><span data-i18n="f.more">More details</span> <span class="opt" data-i18n="f.more.hint">optional, improves accuracy</span></summary>
+          <div class="row four">
+            <label><span data-i18n="f.bathrooms">Bathrooms</span><input name="bathrooms" type="number" min="1" max="8"></label>
+            <label><span data-i18n="f.balconies">Balconies</span><input name="balconies" type="number" min="0" max="6"></label>
+            <label><span data-i18n="f.floor">Floor</span><input name="floor" type="number" min="-2" max="200"></label>
+            <label><span data-i18n="f.totalFloors">Total floors</span><input name="total_floors" type="number" min="1" max="200"></label>
+          </div>
+          <div class="row three">
+            <label><span data-i18n="f.furnishing">Furnishing</span><select name="furnishing"><option value="" data-i18n="f.notSure">Not sure</option><option value="Unfurnished" data-i18n="f.furn.un">Unfurnished</option><option value="Semi-Furnished" data-i18n="f.furn.semi">Semi-Furnished</option><option value="Furnished" data-i18n="f.furn.full">Furnished</option></select></label>
+            <label><span data-i18n="f.facing">Facing</span><select name="facing"><option value="" data-i18n="f.notSure">Not sure</option><option value="North" data-i18n="f.dir.N">North</option><option value="South" data-i18n="f.dir.S">South</option><option value="East" data-i18n="f.dir.E">East</option><option value="West" data-i18n="f.dir.W">West</option><option value="North - East" data-i18n="f.dir.NE">North-east</option><option value="North - West" data-i18n="f.dir.NW">North-west</option><option value="South - East" data-i18n="f.dir.SE">South-east</option><option value="South - West" data-i18n="f.dir.SW">South-west</option></select></label>
+            <label><span data-i18n="f.parking">Parking</span><select name="parking_type"><option value="" data-i18n="f.parking.none">None or not sure</option><option value="Covered" data-i18n="f.parking.covered">Covered</option><option value="Open" data-i18n="f.parking.open">Open</option></select></label>
+          </div>
+        </details>
+        <p class="form-error" role="alert" id="form-error"></p>
+        <button class="btn btn-forest btn-lg" type="submit"><span data-i18n="f.submit">Estimate property value</span> <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+      </form>
+      <div class="result" id="result" aria-live="polite" hidden></div>
+    </div>
+  </section>
+
+  <!-- Market intelligence -->
+  <section class="insights" id="insights" aria-labelledby="ins-title">
+    <div class="wrap">
+      <div class="ins-head">
+        <h2 id="ins-title" class="reveal" data-i18n="ins.title">The market, locality by locality</h2>
+        <label class="ins-city"><span data-i18n="f.city">City</span><select id="ins-city"></select></label>
+      </div>
+      <p class="lead ins-lead" id="ins-lead"></p>
+      <div class="ins-grid">
+        <figure class="chart">
+          <figcaption><h3 data-i18n="ins.bars.title">Priciest and most affordable localities</h3><p data-i18n="ins.bars.sub">Median asking price per sq ft, localities with 5+ listings</p></figcaption>
+          <div id="ins-bars"></div>
+        </figure>
+        <figure class="chart">
+          <figcaption><h3 data-i18n="ins.strip.title">Where every locality sits</h3><p data-i18n="ins.strip.sub">Each mark is one locality; the line is the city median</p></figcaption>
+          <div id="ins-strip"></div>
+        </figure>
+      </div>
+      <p class="fine" data-i18n="ins.fine">These are asking prices from a single snapshot of listings, so they show how localities compare today, not how prices have moved over time.</p>
+    </div>
+  </section>
+
+  <!-- Final call to action -->
+  <section class="cta" id="about" aria-labelledby="cta-title">
+    <div class="wrap cta-inner">
+      <img class="cta-logo" src="/site/img/kshetra-logo.webp" alt="KSHETRA — Since 2026" width="240" height="178" loading="lazy">
+      <h2 id="cta-title"><span data-i18n="tagline.a">Every land has a story.</span> <em data-i18n="tagline.b">Every property has a value.</em></h2>
+      <p data-i18n="cta.body">KSHETRA was built for the Hero Housing Fintech Challenge to make home-loan valuations faster and easier to trust. Lenders use the signed-in workspace to send uncertain cases to a human reviewer, with every decision logged.</p>
+      <a class="btn btn-ivory btn-lg" href="#value"><span data-i18n="cta.button">Get your property valuation</span> <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="brand brand-light" href="#top" aria-label="KSHETRA home">
+        <img class="brand-mark" src="/site/img/kshetra-logo.webp" alt="" width="72" height="54" loading="lazy">
+        <span class="brand-text"><span class="brand-name">KSHETRA</span><span class="brand-sub" data-i18n="brand.sub">Property Intelligence</span></span>
+      </a>
+      <p data-i18n="foot.about">Every land has a story. Every property has a value. Explainable property valuation for Indian housing finance.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="#platform" data-i18n="nav.platform">Our Platform</a><a href="#how" data-i18n="nav.how">How It Works</a><a href="#insights" data-i18n="nav.insights">Valuation Insights</a><a href="/app/" data-i18n="nav.signin">Lender sign-in</a>
+    </nav>
+    <div class="foot-legal">
+      <p><a href="mailto:kshetra07housingfinance@gmail.com" data-i18n="foot.contact">Contact the team at kshetra07housingfinance@gmail.com</a></p>
+      <p><strong data-i18n="foot.privacy.t">Privacy.</strong> <span data-i18n="foot.privacy">Public estimates are not stored. Lender valuations are kept with an audit trail.</span></p>
+      <p><strong data-i18n="foot.terms.t">Terms.</strong> <span data-i18n="foot.terms">Estimates are based on asking prices and are not a formal valuation or an offer to lend.</span></p>
+      <p class="foot-lang" id="foot-lang"></p>
+    </div>
+  </div>
+</footer>
+
+<script src="/site/vendor/lenis.min.js"></script>
+<script src="/app/maps.js"></script>
+<script type="module" src="/site/site.js"></script><!-- module: own scope, so names like t() can't clash with the minified Lenis globals -->
+</body>
+</html>

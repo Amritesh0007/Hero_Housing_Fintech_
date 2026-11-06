@@ -1,0 +1,13 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --extra mcp
+      - run: uv run ruff check src tests && node --check src/valuegraph/web/app.js
+      - run: uv run pytest -q
+      - run: uvx pip-audit
+      - run: uvx bandit -q -ll -r src -s B101,B104,B301,B403  # asserts, 0.0.0.0 bind and joblib model load are intended

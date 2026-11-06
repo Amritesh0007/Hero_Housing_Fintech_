@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: vg
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vg}
+      POSTGRES_DB: valuegraph
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U vg"], interval: 5s, retries: 10 }
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://vg:${POSTGRES_PASSWORD:-vg}@db:5432/valuegraph
+      MODEL_DIR: /app/models
+    volumes: ["./models:/app/models:ro"]
+    depends_on: { db: { condition: service_healthy } }
+    ports: ["8000:8000"]
+
+
+volumes:
+  pgdata: {}

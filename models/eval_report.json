@@ -1,0 +1,582 @@
+{
+  "model_version": "cb-20261101-india_house_prices",
+  "data_source": "india_house_prices",
+  "ground_truth": "asking_price_proxy",
+  "ground_truth_note": "Asking prices, not transactions. These are asking-price prediction metrics, NOT fair-market valuation accuracy.",
+  "splits": {
+    "train": 36914,
+    "val": 5250,
+    "calib": 5317,
+    "test": 5314,
+    "geo_holdout": 5008
+  },
+  "blend_alpha": 1.0,
+  "twin_beta": 0.05,
+  "grade_widths": {
+    "high": 0.630010743823729,
+    "medium": 1.9835001229087
+  },
+  "interval_level": 0.8,
+  "results": {
+    "test": {
+      "valuegraph": {
+        "n": 5314,
+        "mae_inr": 1734065.691331101,
+        "mdape": 0.12402238240123321,
+        "within_10pct": 0.4241625893865262,
+        "within_20pct": 0.6906285284155063,
+        "interval_coverage": 0.8046669175762138,
+        "median_interval_width": 0.5370125301284507
+      },
+      "city_median_rate_x_area": {
+        "n": 5314,
+        "mae_inr": 3391407.2168538473,
+        "mdape": 0.2270390390802979,
+        "within_10pct": 0.24049680090327438,
+        "within_20pct": 0.45238991343620627
+      },
+      "comparables_only": {
+        "n": 5314,
+        "mae_inr": 2174717.158388309,
+        "mdape": 0.15967539202686748,
+        "within_10pct": 0.3368460669928491,
+        "within_20pct": 0.5967256304102371
+      },
+      "linear_hedonic": {
+        "n": 5314,
+        "mae_inr": 2978143.234260799,
+        "mdape": 0.20807453000666473,
+        "within_10pct": 0.2512231840421528,
+        "within_20pct": 0.48231087692886715
+      },
+      "by_grade": [
+        {
+          "grade": "high",
+          "share": 0.4738,
+          "n": 2518,
+          "mdape": 0.093,
+          "within_10pct": 0.527,
+          "interval_coverage": 0.8006,
+          "median_interval_width": 0.4403
+        },
+        {
+          "grade": "low",
+          "share": 0.3131,
+          "n": 1664,
+          "mdape": 0.1792,
+          "within_10pct": 0.3041,
+          "interval_coverage": 0.7939,
+          "median_interval_width": 0.715
+        },
+        {
+          "grade": "medium",
+          "share": 0.213,
+          "n": 1132,
+          "mdape": 0.1435,
+          "within_10pct": 0.3719,
+          "interval_coverage": 0.8295,
+          "median_interval_width": 0.6384
+        }
+      ],
+      "beats_all_baselines_mdape": true,
+      "by_city": [
+        {
+          "city": "Agra",
+          "n": 31,
+          "mdape": 0.1306
+        },
+        {
+          "city": "Ahmedabad",
+          "n": 224,
+          "mdape": 0.1183
+        },
+        {
+          "city": "Aurangabad",
+          "n": 37,
+          "mdape": 0.1439
+        },
+        {
+          "city": "Badlapur",
+          "n": 31,
+          "mdape": 0.0803
+        },
+        {
+          "city": "Bangalore",
+          "n": 221,
+          "mdape": 0.1891
+        },
+        {
+          "city": "Bhiwadi",
+          "n": 75,
+          "mdape": 0.1435
+        },
+        {
+          "city": "Bhubaneswar",
+          "n": 26,
+          "mdape": 0.1092
+        },
+        {
+          "city": "Chandigarh",
+          "n": 93,
+          "mdape": 0.0786
+        },
+        {
+          "city": "Chennai",
+          "n": 261,
+          "mdape": 0.162
+        },
+        {
+          "city": "Coimbatore",
+          "n": 50,
+          "mdape": 0.1207
+        },
+        {
+          "city": "Dehradun",
+          "n": 99,
+          "mdape": 0.1189
+        },
+        {
+          "city": "Faridabad",
+          "n": 296,
+          "mdape": 0.0785
+        },
+        {
+          "city": "Ghaziabad",
+          "n": 82,
+          "mdape": 0.1359
+        },
+        {
+          "city": "Goa",
+          "n": 83,
+          "mdape": 0.1456
+        },
+        {
+          "city": "Greater Noida",
+          "n": 267,
+          "mdape": 0.0996
+        },
+        {
+          "city": "Gurgaon",
+          "n": 259,
+          "mdape": 0.1048
+        },
+        {
+          "city": "Guwahati",
+          "n": 74,
+          "mdape": 0.1351
+        },
+        {
+          "city": "Hyderabad",
+          "n": 248,
+          "mdape": 0.1414
+        },
+        {
+          "city": "Jaipur",
+          "n": 231,
+          "mdape": 0.1038
+        },
+        {
+          "city": "Jamshedpur",
+          "n": 46,
+          "mdape": 0.1944
+        },
+        {
+          "city": "Kalyan",
+          "n": 45,
+          "mdape": 0.1936
+        },
+        {
+          "city": "Kanpur",
+          "n": 58,
+          "mdape": 0.1144
+        },
+        {
+          "city": "Kochi",
+          "n": 97,
+          "mdape": 0.1428
+        },
+        {
+          "city": "Kolkata",
+          "n": 212,
+          "mdape": 0.1547
+        },
+        {
+          "city": "Lucknow",
+          "n": 85,
+          "mdape": 0.1303
+        },
+        {
+          "city": "Mangalore",
+          "n": 44,
+          "mdape": 0.1823
+        },
+        {
+          "city": "Mohali",
+          "n": 133,
+          "mdape": 0.0963
+        },
+        {
+          "city": "Mumbai",
+          "n": 80,
+          "mdape": 0.1744
+        },
+        {
+          "city": "Nagpur",
+          "n": 33,
+          "mdape": 0.199
+        },
+        {
+          "city": "Navi Mumbai",
+          "n": 40,
+          "mdape": 0.1413
+        },
+        {
+          "city": "New Delhi",
+          "n": 245,
+          "mdape": 0.1457
+        },
+        {
+          "city": "Noida",
+          "n": 102,
+          "mdape": 0.1253
+        },
+        {
+          "city": "Palghar",
+          "n": 44,
+          "mdape": 0.1668
+        },
+        {
+          "city": "Patna",
+          "n": 61,
+          "mdape": 0.0725
+        },
+        {
+          "city": "Pune",
+          "n": 211,
+          "mdape": 0.1092
+        },
+        {
+          "city": "Raipur",
+          "n": 48,
+          "mdape": 0.1263
+        },
+        {
+          "city": "Ranchi",
+          "n": 101,
+          "mdape": 0.1231
+        },
+        {
+          "city": "Siliguri",
+          "n": 33,
+          "mdape": 0.1614
+        },
+        {
+          "city": "Sonipat",
+          "n": 80,
+          "mdape": 0.128
+        },
+        {
+          "city": "Surat",
+          "n": 210,
+          "mdape": 0.105
+        },
+        {
+          "city": "Thane",
+          "n": 64,
+          "mdape": 0.1257
+        },
+        {
+          "city": "Vadodara",
+          "n": 216,
+          "mdape": 0.1379
+        },
+        {
+          "city": "Vijayawada",
+          "n": 50,
+          "mdape": 0.1589
+        },
+        {
+          "city": "Visakhapatnam",
+          "n": 163,
+          "mdape": 0.1362
+        },
+        {
+          "city": "Zirakpur",
+          "n": 125,
+          "mdape": 0.1012
+        }
+      ]
+    },
+    "geo_holdout": {
+      "valuegraph": {
+        "n": 5008,
+        "mae_inr": 2696273.6937376466,
+        "mdape": 0.17670488266169848,
+        "within_10pct": 0.30431309904153353,
+        "within_20pct": 0.5509185303514377,
+        "interval_coverage": 0.8111022364217252,
+        "median_interval_width": 0.7678382267236774
+      },
+      "city_median_rate_x_area": {
+        "n": 5008,
+        "mae_inr": 3647686.8128626505,
+        "mdape": 0.23821805929919143,
+        "within_10pct": 0.2154552715654952,
+        "within_20pct": 0.4169329073482428
+      },
+      "comparables_only": {
+        "n": 5008,
+        "mae_inr": 3445806.4819608084,
+        "mdape": 0.2242701205600668,
+        "within_10pct": 0.23083067092651757,
+        "within_20pct": 0.454073482428115
+      },
+      "linear_hedonic": {
+        "n": 5008,
+        "mae_inr": 3203408.481221773,
+        "mdape": 0.21770084535264417,
+        "within_10pct": 0.24261182108626198,
+        "within_20pct": 0.4610623003194888
+      },
+      "by_grade": [
+        {
+          "grade": "low",
+          "share": 1.0,
+          "n": 5008,
+          "mdape": 0.1767,
+          "within_10pct": 0.3043,
+          "interval_coverage": 0.8111,
+          "median_interval_width": 0.7678
+        }
+      ],
+      "beats_all_baselines_mdape": true,
+      "by_city": [
+        {
+          "city": "Agra",
+          "n": 123,
+          "mdape": 0.1628
+        },
+        {
+          "city": "Ahmedabad",
+          "n": 420,
+          "mdape": 0.1663
+        },
+        {
+          "city": "Aurangabad",
+          "n": 34,
+          "mdape": 0.2146
+        },
+        {
+          "city": "Badlapur",
+          "n": 37,
+          "mdape": 0.1442
+        },
+        {
+          "city": "Bangalore",
+          "n": 402,
+          "mdape": 0.1902
+        },
+        {
+          "city": "Bhiwadi",
+          "n": 33,
+          "mdape": 0.3359
+        },
+        {
+          "city": "Bhubaneswar",
+          "n": 23,
+          "mdape": 0.1202
+        },
+        {
+          "city": "Chandigarh",
+          "n": 76,
+          "mdape": 0.2034
+        },
+        {
+          "city": "Chennai",
+          "n": 216,
+          "mdape": 0.2271
+        },
+        {
+          "city": "Coimbatore",
+          "n": 15,
+          "mdape": 0.1626
+        },
+        {
+          "city": "Dehradun",
+          "n": 10,
+          "mdape": 0.1233
+        },
+        {
+          "city": "Faridabad",
+          "n": 199,
+          "mdape": 0.1935
+        },
+        {
+          "city": "Ghaziabad",
+          "n": 50,
+          "mdape": 0.1563
+        },
+        {
+          "city": "Goa",
+          "n": 95,
+          "mdape": 0.1296
+        },
+        {
+          "city": "Greater Noida",
+          "n": 117,
+          "mdape": 0.1211
+        },
+        {
+          "city": "Gurgaon",
+          "n": 301,
+          "mdape": 0.2134
+        },
+        {
+          "city": "Guwahati",
+          "n": 23,
+          "mdape": 0.1576
+        },
+        {
+          "city": "Hyderabad",
+          "n": 156,
+          "mdape": 0.1203
+        },
+        {
+          "city": "Jaipur",
+          "n": 92,
+          "mdape": 0.3098
+        },
+        {
+          "city": "Jamshedpur",
+          "n": 132,
+          "mdape": 0.1877
+        },
+        {
+          "city": "Kalyan",
+          "n": 29,
+          "mdape": 0.2117
+        },
+        {
+          "city": "Kanpur",
+          "n": 65,
+          "mdape": 0.1924
+        },
+        {
+          "city": "Kochi",
+          "n": 104,
+          "mdape": 0.305
+        },
+        {
+          "city": "Kolkata",
+          "n": 270,
+          "mdape": 0.1968
+        },
+        {
+          "city": "Lucknow",
+          "n": 27,
+          "mdape": 0.0867
+        },
+        {
+          "city": "Mangalore",
+          "n": 17,
+          "mdape": 0.1714
+        },
+        {
+          "city": "Mohali",
+          "n": 76,
+          "mdape": 0.1021
+        },
+        {
+          "city": "Mumbai",
+          "n": 84,
+          "mdape": 0.2037
+        },
+        {
+          "city": "Nagpur",
+          "n": 26,
+          "mdape": 0.3042
+        },
+        {
+          "city": "Navi Mumbai",
+          "n": 9,
+          "mdape": 0.2711
+        },
+        {
+          "city": "New Delhi",
+          "n": 333,
+          "mdape": 0.2004
+        },
+        {
+          "city": "Noida",
+          "n": 178,
+          "mdape": 0.1828
+        },
+        {
+          "city": "Palghar",
+          "n": 28,
+          "mdape": 0.1757
+        },
+        {
+          "city": "Patna",
+          "n": 65,
+          "mdape": 0.1424
+        },
+        {
+          "city": "Pune",
+          "n": 155,
+          "mdape": 0.1803
+        },
+        {
+          "city": "Raipur",
+          "n": 70,
+          "mdape": 0.1259
+        },
+        {
+          "city": "Ranchi",
+          "n": 120,
+          "mdape": 0.1247
+        },
+        {
+          "city": "Siliguri",
+          "n": 39,
+          "mdape": 0.179
+        },
+        {
+          "city": "Sonipat",
+          "n": 8,
+          "mdape": 0.2451
+        },
+        {
+          "city": "Surat",
+          "n": 189,
+          "mdape": 0.1318
+        },
+        {
+          "city": "Thane",
+          "n": 159,
+          "mdape": 0.1976
+        },
+        {
+          "city": "Vadodara",
+          "n": 190,
+          "mdape": 0.1601
+        },
+        {
+          "city": "Vijayawada",
+          "n": 19,
+          "mdape": 0.3254
+        },
+        {
+          "city": "Visakhapatnam",
+          "n": 182,
+          "mdape": 0.1493
+        },
+        {
+          "city": "Zirakpur",
+          "n": 12,
+          "mdape": 0.171
+        }
+      ]
+    }
+  }
+}
