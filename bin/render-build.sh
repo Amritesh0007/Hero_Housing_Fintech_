@@ -7,7 +7,10 @@ pip install --upgrade pip
 pip install -e .
 
 echo "=== Training model ==="
-if [ -f data/raw/house_prices.csv ]; then
+if [ -f models/model.joblib ]; then
+  # Committed model was trained on real data + locality coords; retraining here would fall back to synthetic.
+  echo "Using committed models/model.joblib — skipping training"
+elif [ -f data/raw/house_prices.csv ]; then
   echo "Using real training data"
   python -m valuegraph.cli train --csv data/raw/house_prices.csv
 else

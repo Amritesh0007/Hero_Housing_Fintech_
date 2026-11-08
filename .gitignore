@@ -4,6 +4,7 @@ __pycache__/
 .env
 *.db
 models/*.joblib
+!models/model.joblib
 data/raw/
 data/processed/
 .pytest_cache/
